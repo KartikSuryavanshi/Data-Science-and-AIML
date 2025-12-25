@@ -2,7 +2,6 @@
 
 ## 👤 Author
 **Kartik Suryavanshi**  
-Aspiring **Data Scientist | Machine Learning Engineer | Generative AI Engineer**
 
 ---
 

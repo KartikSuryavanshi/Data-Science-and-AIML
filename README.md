@@ -81,45 +81,13 @@ It reflects my **end-to-end journey** from Python fundamentals to **production-r
 
 ---
 
-## 📂 Repository Structure
-
-Data-Science/
-│
-├── Python/
-├── Numpy/
-├── Pandas/
-├── Matplotlib/
-├── Seaborn/
-├── Statistics/
-│
-├── Machine Learning/
-├── Neural networks & Deep learning/
-├── NLP/
-│
-├── Web development/
-├── Webscraping/
-│
-├── anaconda_projects/
-│ └── db/
-│
-├── Projects & Case Studies
-│
-├── Handbooks & Notes (PDFs)
-│
-├── Datasets
-│ └── smartphone_data.csv
-│
-└── README.md
-
-
----
-
 ## 📘 Learning Resources Included
 - Detailed **handbooks & PDFs** for quick revision
 - Jupyter notebooks with **hands-on implementations**
 - End-to-End **ML, DL, NLP & GenAI projects**
 - Notes on **system design, deployment, and MLOps**
 - Cloud & Kubernetes architecture references
+- How LLM works?
 
 ---
 

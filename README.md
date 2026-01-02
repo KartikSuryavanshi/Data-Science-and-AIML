@@ -1,4 +1,4 @@
-# 📊 Data Science & AI Engineering Repository
+# 📊 Data Science & Engineering Repository
 
 ## 👤 Author
 **Kartik Suryavanshi**  
@@ -36,7 +36,6 @@ It reflects my **end-to-end journey** from Python fundamentals to **production-r
 ### 🔹 Databases
 - SQL
 - MongoDB
-- Apache Cassandra
 
 ### 🔹 Machine Learning
 - Supervised & Unsupervised Learning

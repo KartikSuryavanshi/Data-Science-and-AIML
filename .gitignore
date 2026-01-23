@@ -1,0 +1,40 @@
+# OS/Editor
+.DS_Store
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.env
+.env.*
+
+# Virtualenvs
+.venv/
+venv/
+**/venv/
+**/.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+
+# Data/cache
+*.log
+*.tmp
+*.cache/
+*.sqlite
+*.db
+anaconda_projects/db/
+
+# Large binary artifacts
+*.pkl
+**/*.pkl
+Machine Learning/ California_HousingPricePrediction_Project/*.pkl
+
+# OS trash
+.Trash/

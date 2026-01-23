@@ -1,0 +1,420 @@
+# 🤖 End-to-End NLP Text Summarization Project
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.68+-green.svg)](https://fastapi.tiangolo.com/)
+[![Transformers](https://img.shields.io/badge/🤗_Transformers-4.0+-orange.svg)](https://huggingface.co/transformers/)
+
+## 📖 Project Overview
+
+An **end-to-end production-ready text summarization system** that uses Google's **Pegasus transformer model** to generate concise summaries from long dialogues and conversations. The project includes complete ML pipeline implementation, from data ingestion to model deployment via REST API.
+
+### 🎯 Key Features
+
+- Automated data pipeline (download, validation, transformation)
+- Fine-tuned **Google Pegasus** model on SAMSum dataset
+- FastAPI web server for real-time predictions
+- Modular, production-grade code architecture
+- Configuration-driven design (YAML configs)
+- Comprehensive logging and error handling
+- Docker support for containerization
+- AWS deployment ready with CI/CD
+
+---
+
+## 🏗️ Project Architecture
+
+### ML Pipeline (5 Stages)
+
+```
+┌─────────────────────┐
+│ 1. Data Ingestion   │  → Download SAMSum dataset from GitHub
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ 2. Data Validation  │  → Verify train/test/validation files exist
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ 3. Data Transform   │  → Tokenize dialogues & summaries
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ 4. Model Training   │  → Fine-tune Pegasus on SAMSum
+└──────────┬──────────┘
+           ▼
+┌─────────────────────┐
+│ 5. Model Evaluation │  → Calculate ROUGE metrics
+└─────────────────────┘
+```
+
+### Technology Stack
+
+- **Framework:** Hugging Face Transformers
+- **Model:** Google Pegasus (pegasus-cnn_dailymail)
+- **Dataset:** SAMSum (16k+ conversations with summaries)
+- **API:** FastAPI + Uvicorn
+- **Deep Learning:** PyTorch
+- **Deployment:** Docker + AWS EC2/ECR
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.8+
+- pip or conda
+- (Optional) CUDA-enabled GPU for faster training
+
+### Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/KartikSuryavanshi/NLP-Text-Summarization.git
+cd NLP-Text-Summarization
+```
+**Option 1: Using Conda** (Recommended)
+
+```bash
+# Create and activate conda environment
+conda create -n summary python=3.8 -y
+conda activate summary
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Install the textSummarizer package
+pip install -e .
+```
+
+**Option 2: Using venv**
+
+```bash
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -e .
+```
+
+---
+
+## 💻 Usage
+
+### 1️⃣ Train the Model (Optional)
+
+If you want to retrain the model from scratch:
+
+```bash
+python main.py
+```
+
+This will execute all 5 pipeline stages sequentially:
+- Downloads SAMSum dataset (~10MB)
+- Validates data files
+- Tokenizes conversations
+- Fine-tunes Pegasus model (takes ~2-4 hours on GPU)
+- Evaluates model performance
+
+### 2️⃣ Start the Web Server
+
+```bash
+python app.py
+```
+
+Server will start at: **http://localhost:8080**
+
+### 3️⃣ Use the API
+
+**Option A: Interactive Swagger UI**
+
+1. Open http://localhost:8080/docs in your browser
+2. Navigate to `/predict` endpoint
+3. Click "Try it out"
+4. Paste your text and click "Execute"
+
+**Option B: cURL Command**
+
+```bash
+curl -X POST "http://localhost:8080/predict" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Your long conversation or dialogue here..."}'
+```
+
+**Option C: Python Requests**
+
+```python
+import requests
+
+text = """
+John: Hey Sarah, did you finish the quarterly report?
+Sarah: Yes, I submitted it yesterday. It includes all the sales metrics.
+John: Great! What were the main findings?
+Sarah: Sales increased by 23% compared to last quarter.
+"""
+
+response = requests.post(
+    "http://localhost:8080/predict",
+    json={"text": text}
+)
+print(response.json())
+```
+
+---
+
+## 📂 Project Structure
+
+```
+├── artifacts/                  # ML outputs (auto-generated)
+│   ├── data_ingestion/        # Downloaded dataset
+│   ├── data_transformation/   # Tokenized data
+│   ├── model_trainer/         # Trained model
+│   └── model_evaluation/      # Performance metrics
+│
+├── config/
+│   └── config.yaml            # Pipeline configurations
+│
+├── src/textSummarizer/
+│   ├── conponents/            # Core ML components
+│   │   ├── data_ingestion.py
+│   │   ├── data_validation.py
+│   │   ├── data_transformation.py
+│   │   ├── model_trainer.py
+│   │   └── model_evaluation.py
+│   │
+│   ├── pipeline/              # Training & prediction pipelines
+│   │   ├── stage_01_data_ingestion.py
+│   │   ├── ...
+│   │   └── prediction.py
+│   │
+│   ├── config/                # Configuration management
+│   │   └── configuration.py
+│   │
+│   ├── entity/                # Data classes
+│   ├── utils/                 # Helper functions
+│   └── logging/               # Custom logging
+│
+├── research/                   # Jupyter notebooks for experiments
+│   ├── 01_data_ingestion.ipynb
+│   ├── 02_data_validation.ipynb
+│   ├── 03_data_transformation.ipynb
+│   ├── 04_model_trainer.ipynb
+│   └── 05_Model_evaluation.ipynb
+│
+├── app.py                      # FastAPI web server
+├── main.py                     # Training pipeline orchestrator
+├── requirements.txt            # Python dependencies
+├── setup.py                    # Package setup
+├── params.yaml                 # Training hyperparameters
+└── Dockerfile                  # Docker configuration
+```
+
+---
+
+## 🔧 Configuration Files
+
+### config.yaml
+Defines paths and model settings for each pipeline stage.
+
+```yaml
+artifacts_root: artifacts
+
+data_ingestion:
+  source_URL: https://github.com/entbappy/Branching-tutorial/raw/master/summarizer-data.zip
+  
+model_trainer:
+  model_ckpt: google/pegasus-cnn_dailymail
+```
+
+### params.yaml
+Training hyperparameters.
+
+```yaml
+TrainingArguments:
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  warmup_steps: 500
+```
+
+---
+
+## 📊 Model Details
+
+**Model:** Google Pegasus (Pre-trained on CNN/DailyMail)
+
+**Fine-tuning Dataset:** SAMSum
+- 16,369 conversations with human-written summaries
+- Messenger-like conversations
+- Average dialogue length: 94 words
+- Average summary length: 20 words
+
+**Training Configuration:**
+- Epochs: 1 (for quick training)
+- Batch Size: 1
+- Max Input Length: 1024 tokens
+- Max Output Length: 128 tokens
+- Beam Search: 8 beams
+- Length Penalty: 0.8
+
+---
+
+## 🧪 API Endpoints
+
+| Method | Endpoint   | Description                      |
+|--------|-----------|----------------------------------|
+| GET    | `/`       | Redirects to API docs            |
+| GET    | `/docs`   | Interactive API documentation    |
+| GET    | `/train`  | Trigger model retraining         |
+| POST   | `/predict`| Generate text summary            |
+
+---
+
+## 🐳 Docker Deployment
+
+### Build and run with Docker
+
+```bash
+# Build the Docker image
+docker build -t text-summarizer .
+
+# Run the container
+docker run -p 8080:8080 text-summarizer
+```
+
+Access the application at http://localhost:8080
+
+---
+
+## ☁️ AWS Deployment with CI/CD
+
+### Prerequisites
+
+1. **AWS Account** with access to EC2 and ECR
+2. **GitHub Account** for CI/CD automation
+
+### Deployment Steps
+
+#### 1. Create IAM User
+
+Create IAM user with the following policies:
+- `AmazonEC2ContainerRegistryFullAccess`
+- `AmazonEC2FullAccess`
+
+Save the **Access Key ID** and **Secret Access Key**
+
+#### 2. Create ECR Repository
+
+```bash
+aws ecr create-repository --repository-name text-summarizer --region us-east-1
+```
+
+Save the repository URI (e.g., `566373416292.dkr.ecr.us-east-1.amazonaws.com/text-summarizer`)
+
+#### 3. Launch EC2 Instance
+
+- Choose **Ubuntu 22.04 LTS**
+- Instance Type: **t2.medium** or higher (for model inference)
+- Security Group: Allow inbound traffic on port **8080**
+
+#### 4. Install Docker on EC2
+
+SSH into your EC2 instance and run:
+
+```bash
+# Update system
+sudo apt-get update -y
+sudo apt-get upgrade -y
+
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Add ubuntu user to docker group
+sudo usermod -aG docker ubuntu
+newgrp docker
+```
+
+#### 5. Configure GitHub Secrets
+
+Go to your repository: **Settings → Secrets and variables → Actions**
+
+Add the following secrets:
+
+```
+AWS_ACCESS_KEY_ID=<your-access-key>
+AWS_SECRET_ACCESS_KEY=<your-secret-key>
+AWS_REGION=us-east-1
+AWS_ECR_LOGIN_URI=566373416292.dkr.ecr.us-east-1.amazonaws.com
+ECR_REPOSITORY_NAME=text-summarizer
+```
+
+#### 6. Setup Self-Hosted Runner
+
+On your EC2 instance:
+1. Go to: **GitHub Repo → Settings → Actions → Runners → New self-hosted runner**
+2. Choose **Linux** as OS
+3. Run the provided commands on your EC2 instance
+
+#### 7. Push to Deploy
+
+Once configured, every push to the `main` branch will:
+1. Build Docker image
+2. Push to AWS ECR
+3. Deploy to EC2 automatically
+
+---
+
+## 🔬 Research Notebooks
+
+Explore the development process through Jupyter notebooks:
+
+1. **[01_data_ingestion.ipynb](research/01_data_ingestion.ipynb)** - Dataset download and extraction
+2. **[02_data_validation.ipynb](research/02_data_validation.ipynb)** - Data integrity checks
+3. **[03_data_transformation.ipynb](research/03_data_transformation.ipynb)** - Tokenization pipeline
+4. **[04_model_trainer.ipynb](research/04_model_trainer.ipynb)** - Model fine-tuning
+5. **[05_Model_evaluation.ipynb](research/05_Model_evaluation.ipynb)** - Performance metrics
+
+---
+
+## 🧰 Development Workflow
+
+When adding new features, follow this sequence:
+
+1. Update `config/config.yaml` (if new configs needed)
+2. Update `params.yaml` (if new hyperparameters needed)
+3. Update entity classes in `src/textSummarizer/entity/`
+4. Update `ConfigurationManager` in `src/textSummarizer/config/configuration.py`
+5. Implement component in `src/textSummarizer/conponents/`
+6. Create pipeline stage in `src/textSummarizer/pipeline/`
+7. Update `main.py` (for training) or `app.py` (for inference)
+8. Test in research notebooks first
+
+---
+
+
+## 📈 Performance Metrics
+
+After training, check `artifacts/model_evaluation/metrics.csv` for:
+- **ROUGE-1**: Unigram overlap
+- **ROUGE-2**: Bigram overlap  
+- **ROUGE-L**: Longest common subsequence
+
+Typical fine-tuned Pegasus scores on SAMSum:
+- ROUGE-1: ~42-45
+- ROUGE-2: ~20-23
+- ROUGE-L: ~33-36
+
+
+---
+
+## 📚 References
+
+- [Pegasus Paper](https://arxiv.org/abs/1912.08777)
+- [SAMSum Dataset](https://arxiv.org/abs/1911.12237)
+- [Hugging Face Documentation](https://huggingface.co/docs)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+
+

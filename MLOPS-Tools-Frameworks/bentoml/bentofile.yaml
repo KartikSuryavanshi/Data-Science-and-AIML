@@ -1,0 +1,19 @@
+service: "service.py:IrisClassifier"
+
+# Optional metadata
+labels:
+  project: "iris"
+
+# Files to include in the bento
+include:
+  - "service.py"
+  - "requirements.txt"
+
+# Python environment for this bento
+python:
+  requirements_txt: "./requirements.txt"
+  lock_packages: true
+
+# Models to bundle with the bento (must exist in local model store)
+models:
+  - "iris_clf:latest"

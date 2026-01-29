@@ -55,6 +55,7 @@ It reflects my **end-to-end journey** from Python fundamentals to **production-r
 ### 🔹 Web Development & APIs
 - Flask
 - Web Applications for ML & AI
+- Scikit-learn
 
 ### 🔹 Web Scraping
 - Data extraction techniques
